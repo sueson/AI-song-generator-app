@@ -1,39 +1,93 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { router, Slot } from "expo-router";
+import { 
+  useFonts,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_700Bold,
+  Poppins_800ExtraBold,
+  Poppins_600SemiBold
+ } from '@expo-google-fonts/poppins';
 import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import "../global.css";
+import { useEffect, useState } from "react";
+import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo'
+import { LogBox, Text } from "react-native";
+import { tokenCache } from "@/utils/cache";
+import { useAuth } from "@clerk/clerk-expo";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+import GlobalProvider from "@/context/global-provider";
+import { StatusBar } from "expo-status-bar";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
+
+
+const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
+if (!publishableKey) {
+  throw new Error(
+    'Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env',
+  )
+}
+
+// used to ignore the clerk warning
+LogBox.ignoreLogs(['Clerk: Clerk has been loaded with development keys']);
+
+
+// Prevent autohide splash screen...
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+const InitialLayout = () => {
+  const [fontsloaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_500Medium,
+    Poppins_700Bold,
+    Poppins_800ExtraBold,
+    Poppins_600SemiBold
   });
 
+  const {isLoaded, isSignedIn } = useAuth();
+  const [ready, setReady] = useState(false);
+  
   useEffect(() => {
-    if (loaded) {
+    if(fontsloaded && isLoaded) {
+      setReady(true);
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  },[fontsloaded, isLoaded]);
 
-  if (!loaded) {
-    return null;
+  useEffect(() => {
+    if (ready) {
+      if (isSignedIn) {
+        router.replace("/(auth)/(tabs)/home");
+      } else {
+        router.replace("/(public)");
+      }
+    }
+  },[ready, isSignedIn]);
+
+  if(!ready) {
+    return (
+      <Text className="text-white">
+        loading...
+      </Text>
+    )
   }
+  return <Slot/>;
+}
 
+
+export default function RootLayout() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+    <GlobalProvider>
+      <ClerkProvider 
+        publishableKey={publishableKey!} 
+        tokenCache={tokenCache}
+      >
+        <ClerkLoaded>
+            {/* childrens */}
+            <InitialLayout />
+        </ClerkLoaded>
+      </ClerkProvider>
+      <StatusBar style="dark" />
+    </GlobalProvider>
+  )
 }
