@@ -1,4 +1,4 @@
-import { View, Text, ImageBackground, ScrollView, Image, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { View, Text, ImageBackground, ScrollView, Image, StyleSheet, TouchableOpacity, TextInput, Alert, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomButton from '@/components/custom-button';
 import { useRouter } from 'expo-router';
@@ -53,7 +53,7 @@ const Home = () => {
             setIsLoading(true);
             shouldPollRef.current = true; // Start polling...
     
-            const taskResponse = await axios.post('http://192.168.1.245:8000/api/create-song', {
+            const taskResponse = await axios.post('http://10.250.3.35:7300/api/create-song', {
                 story,
                 genre: selectedGenre,
             });
@@ -68,7 +68,7 @@ const Home = () => {
                 }
     
                 const statusResponse = await axios.get(
-                    `http://192.168.1.245:8000/api/song/${taskId}`
+                    `http://10.250.3.35:7300/api/song/${taskId}`
                 );
     
                 const { audioUrl, message, imageUrl, lyrics } = statusResponse.data || {};
@@ -167,10 +167,29 @@ const Home = () => {
                         {audioUrl ? 'Your Song is' : isLoading ? 'Creating your song...' : 'Start creating your song'}
                     </Text>
                     <Text style={styles.songPlay} className='text-white text-[24px] absolute top-[52%] left-0 ms-5'>
-                        {audioUrl ? 'ready to play' : isLoading ? 'Please wait' : ''}
+                        {isLoading ? 'Please wait' : audioUrl ? 'ready to play': ''}
                     </Text>
 
-                    <TouchableOpacity 
+                    {
+                        isLoading ? (
+                            <View className="absolute right-0 w-[50px] h-[50px] mr-5 justify-center items-center">
+                                <ActivityIndicator size="large" color="#00ffcc" />
+                            </View>
+                        ) : (
+                            <TouchableOpacity 
+                                className='absolute right-0 w-[50px] h-[50px] mr-5' 
+                                onPress={handlePlay}
+                            >
+                                <Image
+                                    source={require("../../../assets/images/home_play.png")}
+                                    resizeMode='contain'
+                                    className='w-[48px] h-[48px]'
+                                />
+                            </TouchableOpacity>
+                        )
+                    }
+
+                    {/* <TouchableOpacity 
                         className='absolute right-0 w-[50px] h-[50px] mr-5' 
                         onPress={handlePlay}
                     >
@@ -179,7 +198,7 @@ const Home = () => {
                             resizeMode='contain'
                             className='w-[48px] h-[48px]'
                         />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
 
                 {/* Prompt Input */}

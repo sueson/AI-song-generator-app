@@ -7,9 +7,20 @@ import cheerio from 'cheerio-without-node-native';
 
 dotenv.config();
 const app = express();
-const PORT= 8000;
+const PORT= 7300;
+const allowedOrigins = [
+    "http://localhost:8081",  // for Metro bundler
+    "http://10.250.3.35:8081" // my device/emulator IP
+];
+
 app.use(cors({
-    origin: "http://localhost:8081"
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    }
 }));
 
 const api_key=process.env.OPENAI_API_KEY;

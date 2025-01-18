@@ -53,7 +53,7 @@ const SongPlayer = () => {
             {/* Song Name */}
             <View className='w-full justify-start mt-10'>
                 <View className='ms-10'>
-                    <Text className='text-white text-2xl'>Song name</Text>
+                    <Text className='text-white text-2xl'></Text>
                 </View>
             </View>
 
