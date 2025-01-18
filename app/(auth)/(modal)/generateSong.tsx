@@ -26,7 +26,7 @@ const GenerateSong = () => {
             shouldPollRef.current = true; // Start polling
         
             
-            const taskResponse = await axios.post('http://10.250.3.35:7300/api/create-song', {
+            const taskResponse = await axios.post('http://192.168.1.245:7300/api/create-song', {
                 lyrics,
             });
         
@@ -40,7 +40,7 @@ const GenerateSong = () => {
                 }
         
                 const statusResponse = await axios.get(
-                    `http://10.250.3.35:7300/api/song/${taskId}`
+                    `http://192.168.1.245:7300/api/song/${taskId}`
                 );
         
                 const { audioUrl, message, imageUrl, lyrics: generatedLyrics } = statusResponse.data || {};

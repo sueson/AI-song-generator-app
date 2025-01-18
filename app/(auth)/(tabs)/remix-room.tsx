@@ -23,7 +23,7 @@ const RemixRoom = () => {
     setLoading(true);
 
     try {
-      const response = await axios.get(`http://10.250.3.35:7300/api/search-song?q=${searchQuery}`);
+      const response = await axios.get(`http://192.168.1.245:7300/api/search-song?q=${searchQuery}`);
 
       const data = Array.isArray(response.data?.data) ? response.data.data : [];
       setResult(data);

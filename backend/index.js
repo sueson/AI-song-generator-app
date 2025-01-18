@@ -10,7 +10,7 @@ const app = express();
 const PORT= 7300;
 const allowedOrigins = [
     "http://localhost:8081",  // for Metro bundler
-    "http://10.250.3.35:8081" // my device/emulator IP
+    "http://192.168.1.245:8081" // my device/emulator IP
 ];
 
 app.use(cors({
@@ -252,5 +252,5 @@ app.get('/api/search-song', async (req, res) => {
 
 
 app.listen(PORT, () => {
-    console.log("Server is running");
+    console.log(`Server is running on port: ${PORT}`);
 });
