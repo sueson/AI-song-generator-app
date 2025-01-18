@@ -9,7 +9,11 @@
 2. Start the app
 
    ```bash
-    npx expo start
+   node index.js
+   ```
+
+   ```bash
+    npx expo run:android
    ```
 
 
