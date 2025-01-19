@@ -24,4 +24,4 @@
 
 ## Screenshots of the application
 
-<img src="./assets/images/onboarding page.png" height="400" width="400" alt="onBoarding page">
+<img src="./assets/images/onboarding page.png" height="200" width="200" alt="onBoarding page">
