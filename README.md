@@ -24,5 +24,17 @@
 
 ## Screenshots of the application
 
-<img src="./assets/images/onboarding page.png" width="400" alt="onBoarding page">
-<img src="./assets/images/Sign up.png" width="400" alt="sign-up page">
+<div style="display:flex; align-items:center; justify-content: center; gap: 10px">
+   <img src="./assets/images/onboarding page.png" width="400" alt="onBoarding page">
+   <img src="./assets/images/Sign up.png" width="400" alt="sign-up page">
+</div>
+
+<div style="display:flex; align-items:center; justify-content: center; gap: 10px; margin-top: 10px">
+   <img src="./assets/images/Sign in.png" width="400" alt="onBoarding page">
+   <img src="./assets/images/Home-screen.png" width="400" alt="sign-up page">
+</div>
+
+<div style="display:flex; align-items:center; justify-content: center; gap: 10px; margin-top: 10px">
+   <img src="./assets/images/Song player-screen.png" width="400" alt="onBoarding page">
+   <img src="./assets/images/search-song-api.png" width="400" alt="sign-up page">
+</div>
