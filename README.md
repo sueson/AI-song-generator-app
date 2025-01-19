@@ -25,3 +25,4 @@
 ## Screenshots of the application
 
 <img src="./assets/images/onboarding page.png" width="400" alt="onBoarding page">
+<img src="./assets/images/Sign up.png" width="400" alt="sign-up page">
