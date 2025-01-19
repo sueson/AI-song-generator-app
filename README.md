@@ -24,6 +24,4 @@
 
 ## Screenshots of the application
 
-![onBoarding Page](./assets/images/onboarding%20page.png)
-
-![Sign-up Page](./assets/images/Sign%20up.png)
+<img src="./assets/images/onboarding page.png" height="400" width="400" alt="onBoarding page">
